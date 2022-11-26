@@ -1,20 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include <math.h>
-#include <stdlib.h>
-#include <conio.h>
-
-typedef struct arr_change_for_each_etap
-{
-	int i;
-	int j;
-	int num;
-	int i_galiq;
-	int j_galiq;
-	int pos_x_nerka;
-	int pos_y_nerka;
-} fake_arr;
+#include "work.h"
 
 void move_right_down(int i, int j, int m, int n, COORD pos, HANDLE the_console, int num)
 {
@@ -73,6 +57,199 @@ void move_up_right(int i, int j, int m, int n, COORD pos, HANDLE the_console, in
 		printf("   ");
 	}
 }
+////////////////////////
+int rolling_right(fake_arr change[], COORD pos, int start_x, int start_y, int n, int m, HANDLE the_console, int **arr)
+{
+	int i = -1;
+	int j = 0;
+	int a = 0;
+	int count = 0;
+	// for (int j = n - 1; j >= 0; j--)
+	// {
+	// 	for (int i = 0; i < m; i++)
+	// 	{
+	// 		a++;
+	// 	}
+	// }
+	while (count < 3)
+	{
+		// 1st etap
+		// changing indices of numbers as they are items of "generated" matrix
+		a = 0;
+		for (int j = n - 1; j >= 0; j--)
+		{
+			for (int i = 0; i < m; i++)
+			{
+				change[a].i_nerka = i;
+				change[a].j_nerka = j;
+				change[a].num = arr[i][j];
+				a++;
+			}
+		}
+		int i2 = 0;
+		int j2 = 0;
+		a = 0;
+		while (a < m * n)
+		{
+			i2 = change[a].i_nerka;
+			j2 = change[a].j_nerka;
+			pos.X = start_x + 5 * j2 - 1;
+			pos.Y = start_y + 2 * i2;
+			SetConsoleCursorPosition(the_console, pos);
+			printf("  ");
+			// in case of < 0, moving up then right
+			if (m - n - i2 + j2 < 0)
+			{
+				move_up_right(i2, j2, m, n, pos, the_console, change[a].num);
+			}
+			// in case of > 0, move right then down
+			else
+			{
+				move_right_down(i2, j2, m, n, pos, the_console, change[a].num);
+			}
+			a++;
+		}
+		// 2nd etap
+		// keeping each item's value as they are items of "new generated" matrix
+		a = 0;
+		for (int j = 0; j < n; j++)
+		{
+			for (int i = 0; i < m; i++)
+			{
+				change[a].num = arr[i][j];
+				a++;
+			}
+		}
+		// changing indices of numbers as they are items of "new generated" matrix
+		a = 0;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = m - 1; j >= 0; j--)
+			{
+				change[a].i_nerka = i;
+				change[a].j_nerka = j;
+				a++;
+			}
+		}
+		a = 0;
+		start_x = start_x + 5 * (n - 1);
+		start_y = start_y + 2 * (abs(m - n));
+		while (a < m * n)
+		{
+			i2 = change[a].i_nerka;
+			j2 = change[a].j_nerka;
+			pos.X = start_x + 5 * j2 - 1;
+			pos.Y = start_y + 2 * i2;
+			SetConsoleCursorPosition(the_console, pos);
+			printf("  ");
+			// in case of < 0, moving up then right
+			if (n - m - i2 + j2 < 0)
+			{
+				move_up_right(i2, j2, n, m, pos, the_console, change[a].num);
+			}
+			// in case of > 0, move right then down
+			else
+			{
+				move_right_down(i2, j2, n, m, pos, the_console, change[a].num);
+			}
+			a++;
+		}
+		// 3rd etap
+		//
+		a = 0;
+		for (int j = 0; j < n; j++)
+		{
+			for (int i = m - 1; i >= 0; i--)
+			{
+				change[a].num = arr[i][j];
+				a++;
+			}
+		}
+		// changing indices of numbers as they are items of "new generated" matrix
+		a = 0;
+		for (int j = n - 1; j >= 0; j--)
+		{
+			for (int i = 0; i < m; i++)
+			{
+				change[a].i_nerka = i;
+				change[a].j_nerka = j;
+				a++;
+			}
+		}
+		a = 0;
+		start_x = start_x + 5 * (m - 1);
+		start_y = start_y - 2 * (abs(m - n));
+		while (a < m * n)
+		{
+			i2 = change[a].i_nerka;
+			j2 = change[a].j_nerka;
+			pos.X = start_x + 5 * j2 - 1;
+			pos.Y = start_y + 2 * i2;
+			SetConsoleCursorPosition(the_console, pos);
+			printf("  ");
+			// in case of < 0, moving up then right
+			if (m - n - i2 + j2 < 0)
+			{
+				move_up_right(i2, j2, m, n, pos, the_console, change[a].num);
+			}
+			// in case of > 0, move right then down
+			else
+			{
+				move_right_down(i2, j2, m, n, pos, the_console, change[a].num);
+			}
+			a++;
+		}
+		// 4th etap
+		a = 0;
+		for (int j = n -1; j >= 0; j--)
+		{
+			for (int i = m - 1; i >= 0; i--)
+			{
+				change[a].num = arr[i][j];
+				a++;
+			}
+		}
+		// changing indices of numbers as they are items of "new generated" matrix
+		a = 0;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = m - 1; j >= 0; j--)
+			{
+				change[a].i_nerka = i;
+				change[a].j_nerka = j;
+				a++;
+			}
+		}
+		a = 0;
+		start_x = start_x + 5 * (n - 1);
+		start_y = start_y + 2 * (abs(m - n));
+		while (a < m * n)
+		{
+			i2 = change[a].i_nerka;
+			j2 = change[a].j_nerka;
+			pos.X = start_x + 5 * j2 - 1;
+			pos.Y = start_y + 2 * i2;
+			SetConsoleCursorPosition(the_console, pos);
+			printf("  ");
+			// in case of < 0, moving up then right
+			if (n - m - i2 + j2 < 0)
+			{
+				move_up_right(i2, j2, n, m, pos, the_console, change[a].num);
+			}
+			// in case of > 0, move right then down
+			else
+			{
+				move_right_down(i2, j2, n, m, pos, the_console, change[a].num);
+			}
+			a++;
+		}
+		// for starting 1st etap again with fake matrix
+		start_x = start_x + 5 * (m - 1);
+		start_y = start_y - 2 * (abs(m - n));
+		count++;
+	}
+	return (start_x);
+}
 
 int main()
 {
@@ -94,16 +271,6 @@ int main()
 	}
 	// filling array of structs with indices and arr[j][j]
 	int a = 0;
-	for (int j = 0; j < n; j++)
-	{
-		for (int i = 0; i < m; i++)
-		{
-			change[a].i = i;
-			change[a].j = j;
-			change[a].num = arr[i][j];
-			a++;
-		}
-	}
 	// printing matrix
 	COORD pos;
 	HANDLE the_console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -133,160 +300,8 @@ int main()
 	//
 	while (1)
 	{
-		// 1st etap
-		a = 0;
-		int i2 = 0;
-		int j2 = 0;
-		for (int j = n - 1; j >= 0; j--)
-		{
-			for (int i = 0; i < m; i++)
-			{
-				change[a].i_galiq = i;
-				change[a].j_galiq = j;
-				a++;
-			}
-		}
-		a = 0;
-		while (a < m * n)
-		{
-			i2 = change[a].i_galiq;
-			j2 = change[a].j_galiq;
-			pos.X = start_x + 5 * j2 - 1;
-			pos.Y = start_y + 2 * i2;
-			SetConsoleCursorPosition(the_console, pos);
-			printf("  ");
-			// in case of < 0, moving up then right
-			if (m - n - i2 + j2 < 0)
-			{
-				move_up_right(i2, j2, m, n, pos, the_console, change[a].num);
-			}
-			// in case of > 0, move right then down
-			else
-			{
-				move_right_down(i2, j2, m, n, pos, the_console, change[a].num);
-			}
-			a++;
-		}
-		if ((1 << 15) & tabKeyState)
-		{
-			break;
-		}
-		// 2nd etap
-		// changing indices of numbers as they are items of "new generated" matrix
-		a = 0;
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = m - 1; j >= 0; j--)
-			{
-				change[a].i_galiq = i;
-				change[a].j_galiq = j;
-				a++;
-			}
-		}
-		a = 0;
-		start_x = start_x + 5 * (n - 1);
-		start_y = start_y + 2 * (abs(m - n));
-		while (a < m * n)
-		{
-			i2 = change[a].i_galiq;
-			j2 = change[a].j_galiq;
-			pos.X = start_x + 5 * j2 - 1;
-			pos.Y = start_y + 2 * i2;
-			SetConsoleCursorPosition(the_console, pos);
-			printf("  ");
-			// in case of < 0, moving up then right
-			if (n - m - i2 + j2 < 0)
-			{
-				move_up_right(i2, j2, n, m, pos, the_console, change[a].num);
-			}
-			// in case of > 0, move right then down
-			else
-			{
-				move_right_down(i2, j2, n, m, pos, the_console, change[a].num);
-			}
-			a++;
-		}
-		if ((1 << 15) & tabKeyState)
-		{
-			break;
-		}
-		// 3rd etap
-		// changing indices of numbers as they are items of "new generated" matrix
-		a = 0;
-		for (int j = n - 1; j >= 0; j--)
-		{
-			for (int i = 0; i < m; i++)
-			{
-				change[a].i_galiq = i;
-				change[a].j_galiq = j;
-				a++;
-			}
-		}
-		a = 0;
-		start_x = start_x + 5 * (m - 1);
-		start_y = start_y - 2 * (abs(m - n));
-		while (a < m * n)
-		{
-			i2 = change[a].i_galiq;
-			j2 = change[a].j_galiq;
-			pos.X = start_x + 5 * j2 - 1;
-			pos.Y = start_y + 2 * i2;
-			SetConsoleCursorPosition(the_console, pos);
-			printf("  ");
-			// in case of < 0, moving up then right
-			if (m - n - i2 + j2 < 0)
-			{
-				move_up_right(i2, j2, m, n, pos, the_console, change[a].num);
-			}
-			// in case of > 0, move right then down
-			else
-			{
-				move_right_down(i2, j2, m, n, pos, the_console, change[a].num);
-			}
-			a++;
-		}
-		if ((1 << 15) & tabKeyState)
-		{
-			break;
-		}
-		// 4th etap
-		// changing indices of numbers as they are items of "new generated" matrix
-		a = 0;
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = m - 1; j >= 0; j--)
-			{
-				change[a].i_galiq = i;
-				change[a].j_galiq = j;
-				a++;
-			}
-		}
-		a = 0;
-		start_x = start_x + 5 * (n - 1);
-		start_y = start_y + 2 * (abs(m - n));
-		while (a < m * n)
-		{
-			i2 = change[a].i_galiq;
-			j2 = change[a].j_galiq;
-			pos.X = start_x + 5 * j2 - 1;
-			pos.Y = start_y + 2 * i2;
-			SetConsoleCursorPosition(the_console, pos);
-			printf("  ");
-			// in case of < 0, moving up then right
-			if (n - m - i2 + j2 < 0)
-			{
-				move_up_right(i2, j2, n, m, pos, the_console, change[a].num);
-			}
-			// in case of > 0, move right then down
-			else
-			{
-				move_right_down(i2, j2, n, m, pos, the_console, change[a].num);
-			}
-			a++;
-		}
-		// for starting 1st etap again with fake matrix
-		start_x = start_x + 5 * (m - 1);
-		start_y = start_y - 2 * (abs(m - n));
+		start_x = rolling_right(change, pos, start_x, start_y, n, m, the_console, arr);
+		//rolling_left(change, pos, start_x, start_y, n, m, the_console, arr);
 	}
 	return 0;
 }
