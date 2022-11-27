@@ -63,15 +63,7 @@ int rolling_right(fake_arr change[], COORD pos, int start_x, int start_y, int n,
 	int i = -1;
 	int j = 0;
 	int a = 0;
-	int count = 0;
-	// for (int j = n - 1; j >= 0; j--)
-	// {
-	// 	for (int i = 0; i < m; i++)
-	// 	{
-	// 		a++;
-	// 	}
-	// }
-	while (count < 3)
+	while (start_x < 153)
 	{
 		// 1st etap
 		// changing indices of numbers as they are items of "generated" matrix
@@ -201,7 +193,7 @@ int rolling_right(fake_arr change[], COORD pos, int start_x, int start_y, int n,
 		}
 		// 4th etap
 		a = 0;
-		for (int j = n -1; j >= 0; j--)
+		for (int j = n - 1; j >= 0; j--)
 		{
 			for (int i = m - 1; i >= 0; i--)
 			{
@@ -246,8 +238,8 @@ int rolling_right(fake_arr change[], COORD pos, int start_x, int start_y, int n,
 		// for starting 1st etap again with fake matrix
 		start_x = start_x + 5 * (m - 1);
 		start_y = start_y - 2 * (abs(m - n));
-		count++;
 	}
+	// printf("start_x == %d", start_x);
 	return (start_x);
 }
 
@@ -267,7 +259,7 @@ int main()
 		arr[i] = malloc(sizeof(int) * n);
 		j = -1;
 		while (++j < n)
-			arr[i][j] = rand() % 8;
+			arr[i][j] = 50 - rand() % 8;
 	}
 	// filling array of structs with indices and arr[j][j]
 	int a = 0;

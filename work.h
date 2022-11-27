@@ -6,7 +6,6 @@
 #include <windows.h>
 #include <math.h>
 #include <stdlib.h>
-#include <conio.h>
 
 typedef struct arr_change_for_each_etap
 {
