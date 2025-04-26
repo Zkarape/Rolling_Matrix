@@ -1,4 +1,5 @@
 # Coursework Project: Rolling Matrix Animation with Win32
+# The Dance of the Matrix
 
 In this project, I use Win32 to create a rolling matrix animation in the console.
 
