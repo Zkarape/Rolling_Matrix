@@ -80,3 +80,7 @@ This approach ensures a smooth, mathematically correct rolling animation of the 
 	Տպել և վերցրել եմ վերջին կոորդինատը, որ թվերը կարող են ընդունել, և ցիկլով էտապները կրկնում եմ մինչև այդ կոորդինատ։
 
 
+https://github.com/user-attachments/assets/165524dd-b3e4-4f87-9ff0-cc8328ea2d81
+
+
+
